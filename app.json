@@ -7,7 +7,10 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.helloworld.demo"
+      "bundleIdentifier": "com.helloworld.demo",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.helloworld.demo"

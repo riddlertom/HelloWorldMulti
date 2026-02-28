@@ -44,8 +44,8 @@ jobs:
           PREVIEW_JSON=$(eas build:list --platform android --build-profile preview --limit 1 --status finished --json --non-interactive)
           APK_URL=$(echo "$PREVIEW_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
           
-          # Get latest iOS build (if exists)
-          IOS_JSON=$(eas build:list --platform ios --limit 1 --status finished --json --non-interactive 2>/dev/null || echo "null")
+          # Get iOS build (if exists)
+          IOS_JSON=$(eas build:list --platform ios --build-profile production --limit 1 --status finished --json --non-interactive 2>/dev/null || echo "null")
           IOS_URL=$(echo "$IOS_JSON" | jq -r 'if . == null or . == "" then empty elif type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' 2>/dev/null || echo "")
           
           echo "aab_url=$AAB_URL" >> $GITHUB_OUTPUT
