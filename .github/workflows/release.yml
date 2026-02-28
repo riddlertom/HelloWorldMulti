@@ -41,6 +41,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore Android credentials
+        run: |
+          mkdir -p android/keystores
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/keystores/release.keystore
+          echo "${{ secrets.ANDROID_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
+
       - name: Run EAS Build (Android)
         if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip_build }}
         run: |
