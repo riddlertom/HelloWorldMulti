@@ -50,10 +50,17 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/keystores/release.keystore
           echo "${{ secrets.ANDROID_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
 
-      - name: Run EAS Build (Android)
+      - name: Run EAS Build (Android - AAB)
         if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip_build }}
         run: |
           eas build --platform android --profile production --non-interactive
+        env:
+          EAS_BUILD_NO_EXPO_GO_WARNING: 'true'
+
+      - name: Run EAS Build (Android - APK)
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip_build }}
+        run: |
+          eas build --platform android --profile preview --non-interactive
         env:
           EAS_BUILD_NO_EXPO_GO_WARNING: 'true'
 
@@ -69,26 +76,34 @@ jobs:
       - name: Fetch build artifacts
         id: artifacts
         run: |
-          # Get latest Android build
-          ANDROID_JSON=$(eas build:list --platform android --limit 1 --status finished --json --non-interactive)
-          ANDROID_URL=$(echo "$ANDROID_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
+          # Get production build (AAB)
+          PROD_JSON=$(eas build:list --platform android --build-profile production --limit 1 --status finished --json --non-interactive)
+          AAB_URL=$(echo "$PROD_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
+          
+          # Get preview build (APK)
+          PREVIEW_JSON=$(eas build:list --platform android --build-profile preview --limit 1 --status finished --json --non-interactive)
+          APK_URL=$(echo "$PREVIEW_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
           
           # Get latest iOS build (if exists)
           IOS_JSON=$(eas build:list --platform ios --limit 1 --status finished --json --non-interactive 2>/dev/null || echo "null")
           IOS_URL=$(echo "$IOS_JSON" | jq -r 'if . == null or . == "" then empty elif type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' 2>/dev/null || echo "")
           
-          echo "android_url=$ANDROID_URL" >> $GITHUB_OUTPUT
+          echo "aab_url=$AAB_URL" >> $GITHUB_OUTPUT
+          echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
           echo "ios_url=$IOS_URL" >> $GITHUB_OUTPUT
           
-          if [ -z "$ANDROID_URL" ]; then
-            echo "No Android build found"
+          if [ -z "$AAB_URL" ]; then
+            echo "No production Android build found"
             exit 1
           fi
 
       - name: Download artifacts
         run: |
           mkdir -p artifacts
-          curl -L -o artifacts/app-release.aab "${{ steps.artifacts.outputs.android_url }}"
+          curl -L -o artifacts/app-release.aab "${{ steps.artifacts.outputs.aab_url }}"
+          if [ -n "${{ steps.artifacts.outputs.apk_url }}" ]; then
+            curl -L -o artifacts/app-release.apk "${{ steps.artifacts.outputs.apk_url }}"
+          fi
           if [ -n "${{ steps.artifacts.outputs.ios_url }}" ]; then
             curl -L -o artifacts/app-release.ipa "${{ steps.artifacts.outputs.ios_url }}"
           fi
