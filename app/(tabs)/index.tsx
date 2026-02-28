@@ -8,18 +8,19 @@ import {
 } from 'react-native';
 
 const DANCING_IMAGES = [
-  { uri: 'https://media.giphy.com/media/26BROrshLbOGndJQ/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/3o7TKsQ8Xb5c7f9B2/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/3o7abKhOpu0Nwenp3y/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/26u4cqiYb30iuQ6Y/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/xT5LMzIK1AdZJ4cKW4/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/3o7TKr7lSXqD0d0yG4/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/11vhCpFcDqCYsE/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/3o7abGQa0aRKWURsC4/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif' },
-  { uri: 'https://media.giphy.com/media/3o7btT1XePwPDTDGFq/giphy.gif' },
+  require('../../assets/dancing/dance3.gif'),
+  require('../../assets/dancing/dance4.gif'),
+  require('../../assets/dancing/dance11.gif'),
+  require('../../assets/dancing/dance_ice1.gif'),
+  require('../../assets/dancing/dance_gc1.gif'),
+  require('../../assets/dancing/dance_gc2.gif'),
+  require('../../assets/dancing/dance_gc3.gif'),
+  require('../../assets/dancing/dance_gc4.gif'),
+  require('../../assets/dancing/dance_gc5.gif'),
+  require('../../assets/dancing/dance_gc6.gif'),
+  require('../../assets/dancing/dance_gc7.gif'),
+  require('../../assets/dancing/dance_gc8.gif'),
+  require('../../assets/dancing/dance_gc9.gif'),
 ];
 
 export default function HomeScreen() {
