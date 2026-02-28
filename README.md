@@ -47,22 +47,24 @@ HelloWorldMulti/
 
 Connect the repo to [Vercel](https://vercel.com) and it will build and host the web version. Anyone can then open the live URL instantly—no install required.
 
-### Auto-deploy on push (Deploy Hook)
+### Auto-deploy on push (GitHub Actions)
 
-To update the live demo automatically when you push to main:
+The workflow builds and deploys from the **latest commit** (avoids Vercel Git sync issues). Add these GitHub secrets:
 
-1. **Vercel** – Go to [vercel.com/dashboard](https://vercel.com/dashboard) → select your project (e.g. helloworldmultiv)
-2. **Settings** → **Git** → scroll to **Deploy Hooks**
-3. Click **Create Hook**:
-   - Name: `Deploy on push`
-   - Branch: `main`
-4. Copy the generated URL (looks like `https://api.vercel.com/v1/integrations/deploy/...`)
-5. **GitHub** – Go to your repo → **Settings** → **Secrets and variables** → **Actions**
-6. **New repository secret**:
-   - Name: `VERCEL_DEPLOY_HOOK`
-   - Value: paste the URL from step 4
+1. **Vercel** – [vercel.com/account/tokens](https://vercel.com/account/tokens) → Create Token → copy it
+2. **Vercel** – [vercel.com/dashboard](https://vercel.com/dashboard) → Your Project → **Settings** → **General**:
+   - **Project ID** – under "Project ID" (e.g. `prj_xxx`)
+   - **Team/Org ID** – in the URL when viewing team settings, or under **Settings** → **General** (e.g. `team_xxx`)
 
-Each push to `main` will trigger a redeploy of the live demo.
+3. **GitHub** – Repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+
+   | Name | Value |
+   |------|-------|
+   | `VERCEL_TOKEN` | Token from step 1 |
+   | `VERCEL_ORG_ID` | Team/org ID |
+   | `VERCEL_PROJECT_ID` | Project ID |
+
+Each push to `main` will build and deploy the latest code to Vercel.
 
 ## Other commands
 
