@@ -47,6 +47,16 @@ HelloWorldMulti/
 
 Connect the repo to [Vercel](https://vercel.com) and it will build and host the web version. Anyone can then open the live URL instantly—no install required.
 
+### Auto-deploy on push
+
+If the live demo isn't updating when you push, add a GitHub secret:
+
+1. **Vercel Dashboard** → Your Project → **Settings** → **Git** (scroll to Deploy Hooks)
+2. Create a hook (e.g. "Deploy on push")
+3. **GitHub** → Repo → **Settings** → **Secrets** → Add `VERCEL_DEPLOY_HOOK` with the hook URL
+
+The workflow in `.github/workflows/deploy-vercel.yml` will trigger a redeploy on every push to main.
+
 ## Other commands
 
 - `npm run web` — Run in browser locally
