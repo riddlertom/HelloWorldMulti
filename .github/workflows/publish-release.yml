@@ -1,0 +1,70 @@
+name: Publish to GitHub Release
+
+# Run manually to publish latest EAS builds as a release (no new build)
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+env:
+  EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch build artifacts
+        id: artifacts
+        run: |
+          # Get latest Android build
+          ANDROID_JSON=$(eas build:list --platform android --limit 1 --status finished --json --non-interactive)
+          ANDROID_URL=$(echo "$ANDROID_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
+          
+          # Get latest iOS build (if exists)
+          IOS_JSON=$(eas build:list --platform ios --limit 1 --status finished --json --non-interactive 2>/dev/null || echo "null")
+          IOS_URL=$(echo "$IOS_JSON" | jq -r 'if . == null or . == "" then empty elif type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' 2>/dev/null || echo "")
+          
+          echo "android_url=$ANDROID_URL" >> $GITHUB_OUTPUT
+          echo "ios_url=$IOS_URL" >> $GITHUB_OUTPUT
+          
+          if [ -z "$ANDROID_URL" ]; then
+            echo "No Android build found"
+            exit 1
+          fi
+          echo "Found Android build: $ANDROID_URL"
+
+      - name: Download artifacts
+        run: |
+          mkdir -p artifacts
+          curl -L -o artifacts/app-release.aab "${{ steps.artifacts.outputs.android_url }}"
+          if [ -n "${{ steps.artifacts.outputs.ios_url }}" ]; then
+            curl -L -o artifacts/app-release.ipa "${{ steps.artifacts.outputs.ios_url }}"
+          fi
+          ls -la artifacts/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: Release ${{ inputs.tag }}
+          files: artifacts/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
