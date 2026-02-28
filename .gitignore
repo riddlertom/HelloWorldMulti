@@ -13,3 +13,7 @@ web-build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Credentials (do not commit)
+credentials.json
+android/keystores/

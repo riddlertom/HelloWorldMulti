@@ -15,6 +15,12 @@
     "scheme": "helloworld",
     "plugins": [
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "81659d34-3554-44a9-bcfe-f59bb332340f"
+      }
+    },
+    "owner": "riddlertom"
   }
 }
