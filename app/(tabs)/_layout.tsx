@@ -17,6 +17,10 @@ export default function TabLayout() {
         name="whois"
         options={{ title: 'Whois Lookup', tabBarLabel: 'Whois' }}
       />
+      <Tabs.Screen
+        name="test3"
+        options={{ title: 'Test3', tabBarLabel: 'Test3' }}
+      />
     </Tabs>
   );
 }
