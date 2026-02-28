@@ -12,6 +12,9 @@ on:
 env:
   EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -65,6 +68,6 @@ jobs:
           tag_name: ${{ inputs.tag }}
           name: Release ${{ inputs.tag }}
           files: artifacts/*
-          generate_release_notes: true
+          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
