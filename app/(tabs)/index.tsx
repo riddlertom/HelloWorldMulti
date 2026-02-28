@@ -33,7 +33,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.discoBall}>🪩</Text>
-      <Text style={styles.text}>It works on my android phone Tiffany! YAY</Text>
+      <Text style={styles.text}>It works on my android phone! YAY</Text>
       <Image
         source={DANCING_IMAGES[imageIndex]}
         style={styles.gif}
