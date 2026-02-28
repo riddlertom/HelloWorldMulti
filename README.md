@@ -2,7 +2,7 @@
 
 A simple Hello World app built with Expo — test on your phone with **Expo Go**, no Android Studio required.
 
-**Try it in your browser:** Click the deploy button below to get an instant live demo—no install required.
+**Try it in your browser:** [https://helloworldmultiv.vercel.app/](https://helloworldmultiv.vercel.app/)
 
 ## Prerequisites
 
@@ -40,6 +40,8 @@ HelloWorldMulti/
 ```
 
 ## Demo in browser
+
+**Live demo:** [https://helloworldmultiv.vercel.app/](https://helloworldmultiv.vercel.app/)
 
 **One-click deploy:** [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friddlertom%2FHelloWorldMulti)
 
