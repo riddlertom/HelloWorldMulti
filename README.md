@@ -47,15 +47,22 @@ HelloWorldMulti/
 
 Connect the repo to [Vercel](https://vercel.com) and it will build and host the web version. Anyone can then open the live URL instantly—no install required.
 
-### Auto-deploy on push
+### Auto-deploy on push (Deploy Hook)
 
-If the live demo isn't updating when you push, add a GitHub secret:
+To update the live demo automatically when you push to main:
 
-1. **Vercel Dashboard** → Your Project → **Settings** → **Git** (scroll to Deploy Hooks)
-2. Create a hook (e.g. "Deploy on push")
-3. **GitHub** → Repo → **Settings** → **Secrets** → Add `VERCEL_DEPLOY_HOOK` with the hook URL
+1. **Vercel** – Go to [vercel.com/dashboard](https://vercel.com/dashboard) → select your project (e.g. helloworldmultiv)
+2. **Settings** → **Git** → scroll to **Deploy Hooks**
+3. Click **Create Hook**:
+   - Name: `Deploy on push`
+   - Branch: `main`
+4. Copy the generated URL (looks like `https://api.vercel.com/v1/integrations/deploy/...`)
+5. **GitHub** – Go to your repo → **Settings** → **Secrets and variables** → **Actions**
+6. **New repository secret**:
+   - Name: `VERCEL_DEPLOY_HOOK`
+   - Value: paste the URL from step 4
 
-The workflow in `.github/workflows/deploy-vercel.yml` will trigger a redeploy on every push to main.
+Each push to `main` will trigger a redeploy of the live demo.
 
 ## Other commands
 

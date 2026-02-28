@@ -1,9 +1,7 @@
 name: Deploy to Vercel
 
 # Triggers Vercel to redeploy when we push to main.
-# Option A (simplest): Add VERCEL_DEPLOY_HOOK secret - get it from
-#   Vercel Dashboard → Project → Settings → Git → Deploy Hooks
-# Option B: Add VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID for CLI deploy
+# Add VERCEL_DEPLOY_HOOK secret - see README for setup instructions.
 
 on:
   push:
@@ -11,26 +9,8 @@ on:
       - main
 
 jobs:
-  deploy-hook:
-    if: ${{ secrets.VERCEL_DEPLOY_HOOK != '' }}
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Vercel Deploy Hook
         run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
-
-  deploy-cli:
-    if: ${{ secrets.VERCEL_DEPLOY_HOOK == '' && secrets.VERCEL_TOKEN != '' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm install -g vercel
-      - name: Link and Deploy
-        run: |
-          mkdir -p .vercel
-          echo '{"orgId":"${{ secrets.VERCEL_ORG_ID }}","projectId":"${{ secrets.VERCEL_PROJECT_ID }}"}' > .vercel/project.json
-          vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
