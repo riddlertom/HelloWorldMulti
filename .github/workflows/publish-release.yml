@@ -44,13 +44,8 @@ jobs:
           PREVIEW_JSON=$(eas build:list --platform android --build-profile preview --limit 1 --status finished --json --non-interactive)
           APK_URL=$(echo "$PREVIEW_JSON" | jq -r 'if type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty')
           
-          # Get iOS build (if exists)
-          IOS_JSON=$(eas build:list --platform ios --build-profile production --limit 1 --status finished --json --non-interactive 2>/dev/null || echo "null")
-          IOS_URL=$(echo "$IOS_JSON" | jq -r 'if . == null or . == "" then empty elif type == "array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' 2>/dev/null || echo "")
-          
           echo "aab_url=$AAB_URL" >> $GITHUB_OUTPUT
           echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
-          echo "ios_url=$IOS_URL" >> $GITHUB_OUTPUT
           
           if [ -z "$AAB_URL" ]; then
             echo "No production Android build found"
@@ -65,9 +60,6 @@ jobs:
           curl -L -o artifacts/app-release.aab "${{ steps.artifacts.outputs.aab_url }}"
           if [ -n "${{ steps.artifacts.outputs.apk_url }}" ]; then
             curl -L -o artifacts/app-release.apk "${{ steps.artifacts.outputs.apk_url }}"
-          fi
-          if [ -n "${{ steps.artifacts.outputs.ios_url }}" ]; then
-            curl -L -o artifacts/app-release.ipa "${{ steps.artifacts.outputs.ios_url }}"
           fi
           ls -la artifacts/
 
