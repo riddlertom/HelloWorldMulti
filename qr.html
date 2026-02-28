@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Expo QR Code</title>
+  <style>
+    body { font-family: system-ui; text-align: center; padding: 2rem; }
+    img { margin: 1rem 0; border: 1px solid #ccc; }
+    code { background: #f0f0f0; padding: 0.2em 0.4em; }
+  </style>
+</head>
+<body>
+  <h1>Scan with Expo Go</h1>
+  <p>Point your phone's camera at the QR code below</p>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=exp%3A%2F%2F192.168.1.25%3A8082" alt="QR Code">
+  <p>Or enter manually in Expo Go:</p>
+  <code>exp://192.168.1.25:8082</code>
+</body>
+</html>

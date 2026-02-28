@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Hello World",
+    "slug": "helloworld-multi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.helloworld.demo"
+    },
+    "android": {
+      "package": "com.helloworld.demo"
+    },
+    "scheme": "helloworld",
+    "plugins": [
+      "expo-asset"
+    ]
+  }
+}
