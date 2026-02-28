@@ -2,6 +2,8 @@
 
 A simple Hello World app built with Expo — test on your phone with **Expo Go**, no Android Studio required.
 
+**Try it in your browser:** Click the deploy button below to get an instant live demo—no install required.
+
 ## Prerequisites
 
 - **Node.js** (LTS) — [nodejs.org](https://nodejs.org)
@@ -37,8 +39,14 @@ HelloWorldMulti/
 └── tsconfig.json
 ```
 
+## Demo in browser
+
+**One-click deploy:** [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friddlertom%2FHelloWorldMulti)
+
+Connect the repo to [Vercel](https://vercel.com) and it will build and host the web version. Anyone can then open the live URL instantly—no install required.
+
 ## Other commands
 
-- `npm run web` — Run in browser
+- `npm run web` — Run in browser locally
 - `npm run android` — Open in Android emulator (if installed)
 - `npm run ios` — Open in iOS simulator (Mac only)
